@@ -47,6 +47,8 @@ func startRouter(host *string, port *int64) {
 func gitLoop(config *Config) {
 	// Clone github repository if it doesn't exist already
 	cloneRepository(&config.Repository, &config.Directory, &config.GitUser, &config.GitPrivateKey)
+	w := pullFromRepository(&config.Directory, &config.GitUser, &config.GitPrivateKey)
+	iterateWorktree(w, config, "/")
 	// Ticker periodicity
 	tick := time.NewTicker(config.PollingInterval)
 	for range tick.C {
