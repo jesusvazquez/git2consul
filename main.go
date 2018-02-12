@@ -123,6 +123,12 @@ func main() {
 				Description: "Private key to access a private repository.",
 				Destination: &config.GitPrivateKey,
 			},
+			&unpuzzled.StringVariable{
+				Name:        "log_level",
+				Description: "Application log level (INFO,DEBUG).",
+				Destination: &config.LogLevel,
+				Default:     "INFO",
+			},
 			&unpuzzled.DurationVariable{
 				Name:        "polling_interval",
 				Description: "Polling Interval duration",
@@ -151,9 +157,13 @@ func main() {
 		Action: func() {
 			// Set up logging
 			log.SetWriter(text.New(os.Stdout))
-			log.SetLevel(log.LevelInfo)
-
+			if config.LogLevel == "DEBUG" {
+				log.SetLevel(log.LevelDebug)
+			} else {
+				log.SetLevel(log.LevelInfo)
+			}
 			// Run git polling loop
+			// TODO gracefully shutdown (Hint 2 channels)
 			go gitLoop(config)
 			startRouter(&config.RouterHost, &config.RouterPort)
 		},
