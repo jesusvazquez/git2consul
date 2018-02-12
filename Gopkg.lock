@@ -136,8 +136,7 @@
 [[projects]]
   name = "github.com/timjchin/unpuzzled"
   packages = ["."]
-  revision = "097fbae4db9d6babec8248e51168ae4f286b6a48"
-  version = "v1.2.0"
+  revision = "7ced90ec022e2cb13972bb0b32d0cbceacf63477"
 
 [[projects]]
   branch = "master"
@@ -190,6 +189,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bdb5d4c0139b7e0b41b61228185872f0e7d4fd45c1928979318c8752ccaad2b2"
+  inputs-digest = "5a7c0656bfad5d019e621358de632301a87f3faae3ff0397f21a4d93c18d00ec"
   solver-name = "gps-cdcl"
   solver-version = 1
