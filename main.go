@@ -165,7 +165,6 @@ func main() {
 				log.SetLevel(log.LevelInfo)
 			}
 			// Run git polling loop
-			// TODO gracefully shutdown (Hint 2 channels)
 			go gitLoop(config)
 			startRouter(&config.RouterHost, &config.RouterPort)
 		},
