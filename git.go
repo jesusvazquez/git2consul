@@ -56,7 +56,18 @@ func pullFromRepository(directory *string, gitUser *string, gitPrivateKey *strin
 
 	// Pull the latest changes from the origin remote and merge into the current branch
 	log.Debug("Pulling from origin")
-	err = w.Pull(&git.PullOptions{RemoteName: "origin"})
+	options := &git.PullOptions{}
+	options.RemoteName = "origin"
+	if len(*gitPrivateKey) > 0 {
+		signer, err := ssh.ParsePrivateKey([]byte(strings.Replace(*gitPrivateKey, `\n`, "\n", -1)))
+		if err != nil {
+			log.WithError(err).Fatal("Can't parse given private key")
+			panic(err)
+		}
+		auth := &ssh2.PublicKeys{User: *gitUser, Signer: signer}
+		options.Auth = auth
+	}
+	err = w.Pull(options)
 	if err != nil && err.Error() != ErrRepoIsUpToDate.Error() {
 		log.WithError(err).Fatal("Error pulling from repository")
 		panic(err)
